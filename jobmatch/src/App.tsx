@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Home from './components/home.tsx';
-import Register from './components/register.tsx';
+import Home from './components/home/home.tsx';
+import UserRegister from './components/register/userRegister.tsx';
+import WorkerRegister from './components/register/workerRegister.tsx';
 
 const App = () => {
   return (
@@ -10,7 +11,8 @@ const App = () => {
       <Routes> 
         <Route path="/" element={<Home />} /> 
         <Route path="/home" element={<Home />} /> 
-        <Route path="/register" element={<Register />} />
+        <Route path="/userRegister" element={<UserRegister />} />
+        <Route path="/workerRegister" element={<WorkerRegister />} />
       </Routes>
     </Router>
   );

@@ -1,10 +1,16 @@
-# Pasos previos para correr el Front
+# Previous steps to run the front
 
-### `npm install`
-### `npm install axios`
+```bash
+npm install
+```
+```bash
+npm install axios
+```
+```bash
+npm install react-router-dom`
+```
+# Run the front
 
-### `npm install react-router-dom`
-
-# Para correr el Front
-
-### `npm start`
+```bash
+npm start
+```
