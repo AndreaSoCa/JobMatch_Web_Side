@@ -1,8 +1,6 @@
-import React from 'react';
 import {
   Container,
   Typography,
-  Button,
   Grid,
   Paper,
   AppBar,
@@ -12,15 +10,25 @@ import {
   Link,
   styled,
 } from '@mui/material';
-import { Image } from '@mui/icons-material';
 
-const Root = styled('div')({
-  flexGrow: 1,
+//Icons
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+
+const Root = styled(Box)({
+  minHeight: '100vh',
+  minWidth: '100vw',
+  backgroundImage: 'url("src/assets/Principal.jpg")',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center',
+  display: 'flex',
+  flexDirection: 'column',
 });
 
 const Footer = styled('footer')({
-  backgroundColor: '#333',
-  color: '#fff',
+  backgroundColor: 'whitesmoke',
+  color: 'black',
   padding: 2,
   textAlign: 'center',
   marginTop: 4,
@@ -28,28 +36,53 @@ const Footer = styled('footer')({
 
 const useStyles = {
   appBar: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'whitesmoke',
   },
   container: {
-    marginTop: 3,
-    marginBottom: 3,
+    marginTop: 5,
+    marginBottom: 10,
   },
-  heroImage: {
-    backgroundImage: 'url("src/assets/tortuga.jpg")',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    height: '400px',
+  card: {
     display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
     alignItems: 'center',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease-in-out, transform 0.6s ease-in-out',
+    '&:hover': {
+      backgroundColor: '#c6ccc9',
+      transform: 'scale(1.05)', 
+    },
+    padding: 5,
+    maxHeight: 150,
+  },
+  cardContent: {
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
   },
-  heroText: {
-    color: '#fff',
-    textAlign: 'center',
+  logo_container: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    alignContent: 'center',
+    marginBottom: 5,
   },
-  button: {
-    marginTop: 2,
+  title: {
+    fontFamily: 'sans-serif',
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 5,
+    letterSpacing: 5,
+    textTransform: 'uppercase',
+  },
+  description: {
+    fontSize: '18px',
+    color: 'whitesmoke',
+    letterSpacing: 5,
   },
 };
 
@@ -58,48 +91,57 @@ function Home() {
     <Root>
       <AppBar position="static" sx={useStyles.appBar}>
         <Toolbar>
-          <Typography variant="h6">My App</Typography>
+          <Typography variant="h6" color={'black'}>Job-Match</Typography>
           <IconButton edge="end" color="inherit">
-            <Image />
           </IconButton>
+          <img
+            src="src/assets/tortuga.png"
+            alt="Descripción de la imagen"
+            style={{ width: '50px', height: '30px' }}
+          />
         </Toolbar>
       </AppBar>
-
-      <Paper sx={useStyles.heroImage}>
-        <Container maxWidth="sm">
-          <Typography variant="h3" sx={useStyles.heroText}>
-            Bienvenido a My App
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={useStyles.button}
-          >
-            Registrarse
-          </Button>
-        </Container>
-      </Paper>
-
       <Container sx={useStyles.container}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <Paper>
-              <Image />
-              <Typography variant="h6">Título 1</Typography>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </Typography>
-            </Paper>
+        <Container sx={useStyles.logo_container}>
+        <Typography variant="h2" sx={useStyles.title}>
+            Welcome to Job Match
+          </Typography>
+          <img
+            src="src/assets/tortuga.png"
+            alt="Image description"
+            style={{ width: '220px', height: '150px' }}
+          />
+          <Typography variant="body1" sx={useStyles.description}>
+            Discover Your Worker And Be That Worker
+          </Typography>
+        </Container>
+        <Grid container spacing={3} sx={{display: 'flex'}}>
+          <Grid item xs={12} sm={6} >
+            <Link href="/register" underline='none'>
+              <Paper sx={useStyles.card}>
+                <LoginIcon sx={{fontSize: 140}} />
+                <Container sx={useStyles.cardContent}>
+                  <Typography variant="h6">Login</Typography>
+                  <Typography>
+                    If you already have an account, log in with your credentials
+                  </Typography>
+                </Container>
+              </Paper>
+            </Link>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Paper>
-              <Image />
-              <Typography variant="h6">Título 2</Typography>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </Typography>
-            </Paper>
+            {/* Utiliza el componente Link para hacerlo cliclable y redirigir */}
+            <Link href="/register" underline='none'>
+              <Paper sx={useStyles.card}>
+                <PersonAddAltIcon sx={{fontSize: 140}} />
+                <Container sx={useStyles.cardContent}>
+                  <Typography variant="h6">Register</Typography>
+                  <Typography>
+                    You do not have an account? Create one now as a worker or as a user
+                  </Typography>
+                </Container>
+              </Paper>
+            </Link>
           </Grid>
         </Grid>
       </Container>
@@ -107,17 +149,11 @@ function Home() {
       <Footer>
         <Container maxWidth="md">
           <Typography variant="body2">
-            © {new Date().getFullYear()} My App. Todos los derechos reservados.
+            © {new Date().getFullYear()} Job Match. Todos los derechos reservados.
           </Typography>
-          <Box mt={2}>
-            <Link color="inherit" href="/terms">
-              Términos de servicio
-            </Link>{' '}
-            |{' '}
-            <Link color="inherit" href="/privacy">
-              Política de privacidad
-            </Link>
-          </Box>
+          <Typography variant="body2">
+            Proyecto universitario - Desarrollo de Software II
+          </Typography>
         </Container>
       </Footer>
     </Root>
