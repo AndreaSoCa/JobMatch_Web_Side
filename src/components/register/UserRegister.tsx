@@ -2,7 +2,6 @@ import React from "react";
 // import axios from "axios";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler  } from "react-hook-form"
-import "./userRegister.css";
 
 type Inputs = { //todo remove
   name: string
