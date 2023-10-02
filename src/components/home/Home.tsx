@@ -112,7 +112,7 @@ function Home() {
             style={{ width: '220px', height: '150px' }}
           />
           <Typography variant="body1" sx={useStyles.description}>
-            Discover Your Worker And Be That Worker
+            Connecting Needs, Providing Solutions
           </Typography>
         </Container>
         <Grid container spacing={3} sx={{display: 'flex'}}>

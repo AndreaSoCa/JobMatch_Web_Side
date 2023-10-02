@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
@@ -6,9 +6,9 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { registerWorker } from '../../services/worker-service'
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { registerWorker } from "../../services/worker-service";
 import { Alert } from "@mui/material";
 import {
   Grid,
@@ -18,7 +18,7 @@ import {
   MenuItem,
   Select,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 import { registerUser } from "../../services/user-service";
 
 //función del MaterialUI para personalizar
@@ -32,58 +32,57 @@ const defaultValues: UserToRegister = {
   name: "",
   last_name: "",
   address: "",
-  typeOfUser: '',
+  typeOfUser: "",
 };
 
 //todo Tipado de usuario génerico
 type UserToRegister = {
-  email: string
-  password: string
-  phone_number: string
-  name: string
-  last_name: string
-  address: string
-  typeOfUser: string
-}
+  email: string;
+  password: string;
+  phone_number: string;
+  name: string;
+  last_name: string;
+  address: string;
+  typeOfUser: string;
+};
 
 interface User {
-  email: string
-  phone_number: string
-  user_name: string
-  password: string
-  user_last_name: string
-  address: string
+  email: string;
+  phone_number: string;
+  user_name: string;
+  password: string;
+  user_last_name: string;
+  address: string;
 }
 
 interface Worker {
-  email: string
-  password: string
-  phone_number: string
-  worker_name: string
-  worker_last_name: string
-  worker_address: string
+  email: string;
+  password: string;
+  phone_number: string;
+  worker_name: string;
+  worker_last_name: string;
+  worker_address: string;
 }
-
 
 const RegistrationForm = () => {
   //Estado para el manejo de alerta
   const [alert, setAlert] = useState({
-    type: '',
-    message: '', 
+    type: "",
+    message: "",
   });
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     reset,
-  } = useForm<UserToRegister>({defaultValues});
+  } = useForm<UserToRegister>({ defaultValues });
 
   //Función de react-hook-form para el manejo de formularios
   const onSubmit: SubmitHandler<UserToRegister> = async (data) => {
-    console.log('dataInit', data)
+    console.log("dataInit", data);
     const { email, password, phone_number, name, last_name, address } = data;
     try {
-      if (data.typeOfUser === 'user') {
+      if (data.typeOfUser === "user") {
         const user: User = {
           email,
           phone_number,
@@ -94,10 +93,10 @@ const RegistrationForm = () => {
         };
         await registerUser(user);
         setAlert({
-          type: 'success',
-          message: 'Successful registration as a user.',
+          type: "success",
+          message: "Successful registration as a user.",
         });
-      } else if (data.typeOfUser === 'worker') {
+      } else if (data.typeOfUser === "worker") {
         const worker: Worker = {
           email,
           password,
@@ -105,19 +104,19 @@ const RegistrationForm = () => {
           worker_name: name,
           worker_last_name: last_name,
           worker_address: address,
-        }
+        };
         await registerWorker(worker);
         setAlert({
-          type: 'success',
-          message: 'Successful registration as a worker.',
+          type: "success",
+          message: "Successful registration as a worker.",
         });
       }
       reset();
     } catch (e) {
       //Se setea la alerta como error si NO se logra hacer el registro
       setAlert({
-        type: 'error',
-        message: 'Error in registration.',
+        type: "error",
+        message: "Error in registration.",
       });
     }
   };
@@ -132,8 +131,15 @@ const RegistrationForm = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://plus.unsplash.com/premium_photo-1680608979589-e9349ed066d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMjd8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60)",
+            position: "relative",
+            background: `linear-gradient(
+      180deg,
+      rgb(22, 48, 26) 0%,
+      rgb(113.41, 54.85, 208.96) 0%,
+      rgb(43, 200, 200) 0.01%,
+      rgb(26, 90, 134) 66.54%,
+      rgb(6, 6, 6) 100%
+    )`,
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -142,7 +148,21 @@ const RegistrationForm = () => {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        />
+        >
+          <img
+            src="src/assets/turtle.png"
+            alt="Turtle Image"
+            style={{
+              position: "absolute", 
+              top: 0,
+              left: 0,
+              width: "100%", 
+              height: "100%",
+              objectFit: "cover", 
+            }}
+          />
+        </Grid>
+
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -173,9 +193,9 @@ const RegistrationForm = () => {
                     id="firstName"
                     label="Name"
                     autoFocus
-                    {...register('name', {required: true, minLength: 4})}
+                    {...register("name", { required: true, minLength: 4 })}
                     error={Boolean(errors.name)}
-                    helperText={errors.name ? errors.name.message : ''}
+                    helperText={errors.name ? errors.name.message : ""}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -185,7 +205,7 @@ const RegistrationForm = () => {
                     id="last_name"
                     label="Last name"
                     autoComplete="family-name"
-                    {...register('last_name', {required: true, minLength: 4})}
+                    {...register("last_name", { required: true, minLength: 4 })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -195,7 +215,7 @@ const RegistrationForm = () => {
                     id="address"
                     label="Address"
                     autoComplete="address"
-                    {...register('address', {required: true, minLength: 4})}
+                    {...register("address", { required: true, minLength: 4 })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -206,7 +226,7 @@ const RegistrationForm = () => {
                     type="password"
                     id="password"
                     autoComplete="new-password"
-                    {...register('password', {required: true, minLength: 8})}
+                    {...register("password", { required: true, minLength: 8 })}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -216,7 +236,7 @@ const RegistrationForm = () => {
                     id="email"
                     label="Email"
                     autoComplete="email"
-                    {...register('email', {required: true, minLength: 4})}
+                    {...register("email", { required: true, minLength: 4 })}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -226,21 +246,28 @@ const RegistrationForm = () => {
                     id="phone_number"
                     label="Phone number"
                     autoComplete="telefono"
-                    {...register('phone_number', {required: true, minLength:10})}
+                    {...register("phone_number", {
+                      required: true,
+                      minLength: 10,
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl fullWidth>
-                    <InputLabel id="register-type-select">Tipo de Registro</InputLabel>
+                    <InputLabel id="register-type-select">
+                      Register type
+                    </InputLabel>
                     <Select
                       labelId="register-type-select"
                       id="register-type-select"
                       label="Type of registration"
-                      defaultValue={'user'}
-                      {...register('typeOfUser', { required: 'Selecciona un tipo de usuario' })}
+                      defaultValue={"user"}
+                      {...register("typeOfUser", {
+                        required: "Selecciona un tipo de usuario",
+                      })}
                     >
-                      <MenuItem value={'user'}>User</MenuItem>
-                      <MenuItem value={'worker'}>Worker</MenuItem>
+                      <MenuItem value={"user"}>User</MenuItem>
+                      <MenuItem value={"worker"}>Worker</MenuItem>
                     </Select>
                     {errors.typeOfUser && <p>{errors.typeOfUser.message}</p>}
                   </FormControl>
@@ -260,10 +287,10 @@ const RegistrationForm = () => {
                   <Link to="/home">Back</Link>
                 </Grid>
               </Grid>
-              {alert.type === 'success' && (
-              <Alert severity="success" >{alert.message}</Alert>
+              {alert.type === "success" && (
+                <Alert severity="success">{alert.message}</Alert>
               )}
-              {alert.type === 'error' && (
+              {alert.type === "error" && (
                 <Alert severity="error">{alert.message}</Alert>
               )}
             </Box>
@@ -272,6 +299,6 @@ const RegistrationForm = () => {
       </Grid>
     </ThemeProvider>
   );
-}
+};
 
 export default RegistrationForm;
