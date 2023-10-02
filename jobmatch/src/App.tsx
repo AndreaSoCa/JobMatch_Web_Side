@@ -8,7 +8,7 @@ import WorkerRegister from './components/register/workerRegister.tsx';
 const App = () => {
   return (
     <Router>
-      <Routes> 
+      <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/home" element={<Home />} /> 
         <Route path="/userRegister" element={<UserRegister />} />
