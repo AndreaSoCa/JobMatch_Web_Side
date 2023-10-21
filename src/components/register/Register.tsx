@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { registerWorker } from "../../services/worker-service";
+import { registerWorker } from "../../services/registerService/worker-service";
 import { Alert } from "@mui/material";
 import {
   Grid,
@@ -19,7 +19,7 @@ import {
   Select,
   Button,
 } from "@mui/material";
-import { registerUser } from "../../services/user-service";
+import { registerUser } from "../../services/registerService/user-service";
 
 //función del MaterialUI para personalizar
 const theme = createTheme();

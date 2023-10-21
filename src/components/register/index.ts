@@ -1,2 +1,2 @@
-export { default as UserRegister } from './UserRegister'
+export { default as UserRegister } from './Register';
 // export * from './WorkerRegister'

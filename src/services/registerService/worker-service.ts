@@ -1,25 +1,25 @@
-import CONSTANTS from "../Constants"
+import CONSTANTS from "../../Constants"
 
-interface User {
+interface Worker {
     email: string
-    phone_number: string
-    user_name: string
     password: string
-    user_last_name: string
-    address: string
+    phone_number: string
+    worker_name: string
+    worker_last_name: string
+    worker_address: string
 }
 
 /**
- * @param user: User
+ * @param worker: Worker
  */
-export const registerUser = async (user: User) => {
+export const registerWorker = async (worker: Worker) => {
     try {
-        const response = await fetch(`${CONSTANTS.BASE_URL}${CONSTANTS.USER_REGISTER}`, {
+        const response = await fetch(`${CONSTANTS.BASE_URL}${CONSTANTS.WORKER_REGISTER}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(user),
+          body: JSON.stringify(worker),
         });
   
         if (!response.ok) {
