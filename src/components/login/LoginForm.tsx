@@ -2,12 +2,12 @@ import { Alert, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Se
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { loginWorker } from "../../services/worker-service";
-import { loginUser } from "../../services/user-service";
 import { useNavigate } from 'react-router-dom';
 import { Root } from "../materialUI-common";
 import { LoginType, TokenUser } from "../../types";
 import { useStyles } from "./LoginFormStyle";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { loginUser } from "../../services/user-service";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -39,6 +39,7 @@ const LoginForm = () => {
           type: "success",
           message: "Successful login",
         });
+        navigate('/customer');
       } else if (typeLogin === 'worker') {
         const {token}: TokenUser = await loginWorker(data);
         console.log('token worker', token);
@@ -46,8 +47,8 @@ const LoginForm = () => {
           type: "success",
           message: "Successful login",
         });
+        navigate('/worker');
       }
-      navigate('/principal');
       
     } catch (e) {
       setAlert({
