@@ -2,7 +2,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from './components/home/Home.tsx';
-import { LoginForm, PrincipalPage, RegistrationForm } from './components/index.ts';
+import { AvailableServices, LoginForm, PrincipalPageWorker, RegistrationForm } from './components/index.ts';
+import PrincipalPageCustomer from './components/customer-pages/principal/PrincipalPageCustomer.tsx';
+import { RouterLayout } from './components/navBar/RouterLayout.tsx';
 
 const App = () => {
   return (
@@ -12,7 +14,21 @@ const App = () => {
         <Route path="/home" element={<Home />} /> 
         <Route path="/register" element={<RegistrationForm />} /> 
         <Route path="/login" element={<LoginForm />} /> 
-        <Route path="/principal" element={<PrincipalPage />} /> 
+
+        <Route path="/customer" element={<RouterLayout userType="customer" />}>
+          <Route path="/customer" element={<PrincipalPageCustomer />} />
+          <Route path="/customer/hire" element={<PrincipalPageCustomer />} />
+          <Route path="/customer/available-services" element={<AvailableServices />} />
+          <Route path="/customer/payments" element={<AvailableServices />} />
+        </Route>
+
+        <Route path="/worker" element={<RouterLayout userType="worker" />}>
+          <Route path="/worker" element={<PrincipalPageWorker />} />
+          <Route path="/worker/active-services" element={<PrincipalPageWorker />} />
+          <Route path="/worker/abilities" element={<PrincipalPageWorker />} />
+          <Route path="/worker/payments" element={<PrincipalPageWorker />} />
+        </Route>
+
       </Routes>
     </Router>
   );
