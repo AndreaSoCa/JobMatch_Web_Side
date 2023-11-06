@@ -1,63 +1,55 @@
-import { Alert, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { loginWorker } from "../../services/worker-service";
 import { useNavigate } from 'react-router-dom';
 import { Root } from "../materialUI-common";
 import { LoginType, TokenUser } from "../../types";
 import { useStyles } from "./LoginFormStyle";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { loginUser } from "../../services/user-service";
+import { Toaster, toast } from 'sonner'
+import { useAuthActions } from "../../store/auth/useAuthActions";
+import { login } from "../../services/auth-service";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [alert, setAlert] = useState({
-    type: "",
-    message: "",
-  });
 
+  const { loginUserState } = useAuthActions();
+
+  // #region Estado
+  const [typeLogin, setTypeLogin] = useState<"user" | "worker" | "">('');
+
+  const handleChangeTypeLogin = (event: SelectChangeEvent) => {
+    setTypeLogin(event.target.value as "user" | "worker" | "");
+  };
+  // #endregion
+
+  // #region React-hook-form y onSubmit 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginType>();
 
-  const [typeLogin, setTypeLogin] = useState('');
-
-
-  const handleChangeTypeLogin = (event: SelectChangeEvent) => {
-    setTypeLogin(event.target.value as string);
-  };
-
   const onSubmit: SubmitHandler<LoginType> = async (data) => {
-    console.log("dataInit", data);
     try {
+      const {token}: TokenUser = await login(data, typeLogin);
+      loginUserState(token);
       if (typeLogin === 'user') {
-        const {token}: TokenUser = await loginUser(data);
-        console.log('token user', token);
-        setAlert({
-          type: "success",
-          message: "Successful login",
-        });
-        navigate('/customer');
+        setTimeout(() => {
+          navigate('/customer');
+        }, 1000)
       } else if (typeLogin === 'worker') {
-        const {token}: TokenUser = await loginWorker(data);
-        console.log('token worker', token);
-        setAlert({
-          type: "success",
-          message: "Successful login",
-        });
-        navigate('/worker');
+        setTimeout(() => {
+          navigate('/worker');
+        }, 1000)
       }
-      
+      toast.success("Acceso correcto");
     } catch (e) {
-      setAlert({
-        type: "error",
-        message: "Error: Invalid credentials",
-      });
-      console.error('Error en el login');
+      toast.error("Acceso incorrecte, valide sus credenciales");
     }
+  
   };
+  // #endregion
 
   return (
     <Root>
@@ -142,15 +134,10 @@ const LoginForm = () => {
                   <Link to="/register">You don't have an account? create one now</Link>
                 </Grid>
               </Grid>
-              {alert.type === "success" && (
-                <Alert severity="success">{alert.message}</Alert>
-              )}
-              {alert.type === "error" && (
-                <Alert severity="error">{alert.message}</Alert>
-              )}
             </Box>
           </Box>
         </Grid>
+        <Toaster />
       </Grid>
       
     </Root>
