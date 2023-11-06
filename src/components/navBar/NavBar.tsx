@@ -1,6 +1,5 @@
 import {
   AppBar,
-  Avatar,
   Box,
   Button,
   Container,
@@ -15,27 +14,26 @@ import React, { useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import { NavBarProps } from "../../types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {customerPages, workerPages} from "./pages"
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useAuthActions } from "../../store/auth/useAuthActions";
 
-const settings = ['Profile', 'Logout'];
 export const NavBar: React.FC<NavBarProps> = ({ userType }) => {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const {logoutUser} = useAuthActions();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+  const handleLogOut = () => {
+    logoutUser();
+    navigate('/login');
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   const pages = userType === 'customer' ? customerPages : workerPages;
@@ -131,37 +129,16 @@ export const NavBar: React.FC<NavBarProps> = ({ userType }) => {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Semy Sharp" src="src/assets/tortuga.png" />
-                </IconButton>
+              <Tooltip title="Cerrar sesión">
+                  <IconButton onClick={handleLogOut} sx={{ p: 0 }}>
+                    <LogoutIcon /> Salir
+                  </IconButton>
               </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
+      <Toolbar />
     </Box>
   );
 };
