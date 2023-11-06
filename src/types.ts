@@ -60,3 +60,12 @@ export type Pages = {
   name: string;
   path: string;
 }
+
+//WORKER CARDS
+export type WorkProps = {
+  work_id: string;
+  work_name: string;
+  work_description: string;
+  work_amount: number;
+  path_image: string;
+}
