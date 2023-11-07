@@ -13,13 +13,20 @@ import { Footer } from "../../materialUI-common";
 import { getWorkById, updateWork } from "../../../services/work-service";
 import { WorkProps } from "../../../types";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const EditJobWorker: React.FC = () => {
   const { workId } = useParams();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [work, setWork] = useState<WorkProps>();
+  const [work, setWork] = useState<WorkProps>({
+    worker_amount: 0,
+    work_id: "",
+    work_name: "",
+    work_description: "",
+    work_image: "",
+  });
 
   useEffect(() => {
     const fetchWorkById = async () => {
@@ -37,23 +44,20 @@ const EditJobWorker: React.FC = () => {
     };
     fetchWorkById();
   }, [workId]);
-  console.log(work);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(work);
     if (work && workId) {
-      const success = await updateWork(workId, work);
+      const success = await updateWork(work);
       if (success) {
-        navigate(`/worker/`);
+        setTimeout(() => {
+          toast.success("Trabajo agregado a tu lista de servicios")
+          navigate(`/worker/`);
+        },1000);
       } else {
-        console.log("Error al actualizar los datos");
+        console.log("Error al agregar servicio");
       }
-    }
-  };
-
-  const handleInputChange = (field: keyof WorkProps, value: string) => {
-    if (work) {
-      setWork({ ...work, [field]: value });
     }
   };
 
@@ -98,9 +102,12 @@ const EditJobWorker: React.FC = () => {
                   fullWidth
                   name="work_name"
                   value={work?.work_name}
-                  onChange={(event) =>
-                    handleInputChange("work_name", event.target.value)
-                  }
+                  onChange={(event) => {
+                    setWork({
+                      ...work,
+                      work_name: event.target.value
+                    })
+                  }}
                 />
                 <Divider sx={{ my: 2 }} />
                 <TextField
@@ -111,9 +118,12 @@ const EditJobWorker: React.FC = () => {
                   multiline
                   rows={4}
                   value={work?.work_description}
-                  onChange={(event) =>
-                    handleInputChange("work_description", event.target.value)
-                  }
+                  onChange={(event) => {
+                    setWork({
+                      ...work,
+                      work_description: event.target.value
+                    })
+                  }}
                 />
                 <Divider sx={{ my: 2 }} />
                 <TextField
@@ -121,10 +131,13 @@ const EditJobWorker: React.FC = () => {
                   variant="outlined"
                   fullWidth
                   name="work_amount"
-                  value={work?.work_amount}
-                  onChange={(event) =>
-                    handleInputChange("work_amount", event.target.value)
-                  }
+                  value={work?.worker_amount}
+                  onChange={(event) => {
+                    setWork({
+                      ...work,
+                      worker_amount: parseInt(event.target.value)
+                    })
+                  }}
                 />
                 <Divider sx={{ my: 2 }} />
                 <Button variant="contained" color="primary" type="submit">

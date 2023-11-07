@@ -13,7 +13,7 @@ export const DEFAULT_AUTH_STATE: TAuthProps = {
 const persistedState = localStorage.getItem("__auth__");
 const initialAuthState = persistedState ? JSON.parse(persistedState) : null;
 
-const initialState = initialAuthState || DEFAULT_AUTH_STATE;
+const initialState: TAuthProps = initialAuthState || DEFAULT_AUTH_STATE;
 
 
 const authSlice = createSlice({

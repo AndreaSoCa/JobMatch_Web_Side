@@ -1,19 +1,23 @@
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { Root } from "../materialUI-common";
-import { LoginType, TokenUser } from "../../types";
+import { LoginType, TLoginResponse } from "../../types";
 import { useStyles } from "./LoginFormStyle";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Toaster, toast } from 'sonner'
 import { useAuthActions } from "../../store/auth/useAuthActions";
 import { login } from "../../services/auth-service";
+import { useUserActions } from "../../store/user/useUserActions";
+import { useAppSelector } from "../../hooks/store";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
+  const user = useAppSelector((state) => state.user);
   const { loginUserState } = useAuthActions();
+  const { updateUser } = useUserActions();
 
   // #region Estado
   const [typeLogin, setTypeLogin] = useState<"user" | "worker" | "">('');
@@ -32,8 +36,9 @@ const LoginForm = () => {
 
   const onSubmit: SubmitHandler<LoginType> = async (data) => {
     try {
-      const {token}: TokenUser = await login(data, typeLogin);
-      loginUserState(token);
+      const response: TLoginResponse = await login(data, typeLogin);
+      updateUser(response.user);
+      loginUserState(response.token);
       if (typeLogin === 'user') {
         setTimeout(() => {
           navigate('/customer');

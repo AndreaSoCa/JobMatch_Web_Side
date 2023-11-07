@@ -5,27 +5,26 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import { CardPrincipal } from '../../../types';
 import { Footer } from '../../materialUI-common';
 import { useStyles } from './PrincipalPageWorkerStyle';
+import { Link } from 'react-router-dom';
 
 const cardsTwo: CardPrincipal[] = [
   {
-    title: 'Edita tus servicios',
-    description: 'Conecta con cualquier trabajador local o alrededor del mundo',
-    path_url: '/connect',
+    title: 'Mira tus servicios',
+    description: 'Mira y gestiona todos los servicios que ofreces en nuestra plataforma',
+    path_url: '/worker/active-services',
     path_image: 'src/assets/hire-principal.jpg',
   },
   {
     title: 'Prestar servicios',
-    description: 'Conecta con cualquier trabajador local o alrededor del mundo',
+    description: 'Escoge entre una variedad de oficios o crea tu propio oficio para ofertar',
     path_url: '/worker/add-job',
     path_image: 'src/assets/worker-principal.jpg',
   },
 
 ];
-
 
 export default function PrincipalPageWorker() {
   return (
@@ -54,7 +53,7 @@ export default function PrincipalPageWorker() {
           <Grid container spacing={4}>
             {cardsTwo.map((card, index) => (
               <Grid item key={index} xs={12} sm={6} md={4}>
-                <Link href={card.path_url} underline='none'>
+                <Link to={card.path_url}>
                   <Card
                     sx={useStyles.card}
                   >

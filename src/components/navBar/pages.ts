@@ -17,8 +17,12 @@ export const customerPages: Pages[] = [
 
 export const workerPages: Pages[] = [
   {
-    name: 'Active services',
-    path: '/worker/active-services'
+    name: 'Inicio',
+    path: '/worker'
+  },
+  {
+    name: 'Mi perfil',
+    path: '/worker/profile'
   },
   {
     name: 'Abilites',

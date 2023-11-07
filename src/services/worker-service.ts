@@ -1,4 +1,5 @@
 import CONSTANTS from "../Constants"
+import { TWorkerProfile } from "../types"
 
 interface Worker {
     email: string
@@ -31,3 +32,26 @@ export const registerWorker = async (worker: Worker) => {
         throw error;
       }
 };
+
+export const updateWorker = async (worker: TWorkerProfile) => {
+  try {
+    const response = await fetch(`${CONSTANTS.BASE_URL}${CONSTANTS.WORKER_EDIT}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(worker),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al realizar la solicitud PUT');
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error en la solicitud PUT:', error);
+    throw error;
+  }
+};
+

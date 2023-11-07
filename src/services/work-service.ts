@@ -1,5 +1,5 @@
 import CONSTANTS from "../Constants";
-import { WorkProps } from "../types";
+import { IWorkCreateData, WorkProps } from "../types";
 
 export const getWorks = async () => {
   try {
@@ -22,7 +22,10 @@ export const getWorks = async () => {
   }
 };
 
-export const getWorkById = async (workId: string) => {
+export const getWorkById = async (workId: number | null) => {
+  if (!workId) {
+    throw new Error("workId null");
+  }
   try {
     const response = await fetch(
       `${CONSTANTS.BASE_URL}${CONSTANTS.WORK_ID}/${workId}`,
@@ -38,7 +41,6 @@ export const getWorkById = async (workId: string) => {
       return null;
     }
     const data = await response.json();
-    console.log("Solicitud GET exitosa");
     return data;
   } catch (error) {
     console.error("Error en la solicitud GET:", error);
@@ -46,12 +48,13 @@ export const getWorkById = async (workId: string) => {
   }
 };
 
-export const updateWork = async (workId: string, workData: WorkProps) => {
+export const updateWork = async (workData: WorkProps) => {
   try {
+    console.log(workData);
     const response = await fetch(
-      `${CONSTANTS.BASE_URL}${CONSTANTS.UPDATE_WORK}/${workId}`,
+      `${CONSTANTS.BASE_URL}${CONSTANTS.UPDATE_WORK}`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -68,5 +71,28 @@ export const updateWork = async (workId: string, workData: WorkProps) => {
   } catch (error) {
     console.error("Error en la solicitud POST:", error);
     return false;
+  }
+};
+
+export const addWork = async (workData: IWorkCreateData) => {
+  try {
+    console.log(workData);
+    const response = await fetch(`${CONSTANTS.BASE_URL}${CONSTANTS.CREATE_WORK}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(workData),
+    });
+
+    if (!response.ok) {
+      return false;
+    }
+
+    const addedWork = await response.json();
+    return addedWork;
+  } catch (error) {
+    console.error("Error en la solicitud POST:", error);
+    return null;
   }
 };
