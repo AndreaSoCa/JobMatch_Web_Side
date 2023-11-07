@@ -6,32 +6,42 @@ import {
   Card,
   CardMedia,
   CardContent,
+  TextField,
+  Button,
+  Box,
 } from "@mui/material";
 import { Footer } from "../../materialUI-common";
 import { useStyles } from "../principal/PrincipalPageWorkerStyle";
-import { getWorks } from "../../../services/work-service";
+import { getWorkById } from "../../../services/work-service";
 import { WorkProps } from "../../../types";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditJobWorker: React.FC = () => {
   const { workId } = useParams();
-  console.log(workId);
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
-  const [works, setWorks] = useState<WorkProps[]>([]);
+  const [work, setWork] = useState<WorkProps>();
 
   useEffect(() => {
-    const getAllWorks = async () => {
+    const fetchWorkById = async () => {
       setLoading(true);
-      const works = await getWorks();
-      if (works === null) {
+      if(workId === undefined){
+        return;
+      }
+      const workData = await getWorkById(workId);
+      if (workData === null) {
         setLoading(false);
         return;
       }
-      setWorks(works);
+      setWork(workData[0]);
       setLoading(false);
     };
-    getAllWorks();
-  }, []);
+    fetchWorkById();
+  }, [workId]);
+  console.log(work);
+
+
 
   return (
     <>
@@ -44,7 +54,7 @@ const EditJobWorker: React.FC = () => {
             color="text.primary"
             gutterBottom
           >
-            Selecciona el trabajo que deseas ofrecer
+            Edita tu trabajo
           </Typography>
         </Container>
 
@@ -53,25 +63,47 @@ const EditJobWorker: React.FC = () => {
             <Typography variant="body2">Cargando trabajos...</Typography>
           ) : (
             <Grid container spacing={4}>
-              {works.map((work, index) => (
-                <Grid item key={index} xs={12} sm={6} md={4}>
-                  <Card sx={useStyles.card}>
-                    <CardMedia
-                      component="div"
-                      sx={{
-                        pt: "56.25%",
-                      }}
-                      image={"/src/assets/"}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {work.work_name}
-                      </Typography>
-                      <Typography>{work.work_description}</Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
+              <Box component="form"
+              // onSubmit={handleSubmit}
+              >
+          <TextField
+            label="Nombre del trabajo"
+            variant="outlined"
+            fullWidth
+            name="work_name"
+            value={work?.work_name}
+            onChange= {(event) => {
+              setWork({ 
+                ...work, 
+                work_name: event.target.value ?? "",
+              });
+            }} 
+          />
+          <TextField
+            label="Descripción del trabajo"
+            variant="outlined"
+            fullWidth
+            name="work_description"
+            multiline
+            rows={4}
+            value={work?.work_description }
+            // onChange={handleInputChange}
+          />
+          <TextField
+            label="Precio por hora"
+            variant="outlined"
+            fullWidth
+            name="work_amount"
+            multiline
+            rows={4}
+            value={work?.work_amount }
+            // onChange={handleInputChange}
+          />
+          {/* Otros campos del trabajo... */}
+          <Button variant="contained" color="primary" type="submit">
+            Guardar cambios
+          </Button>
+        </Box>
             </Grid>
           )}
         </Container>

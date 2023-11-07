@@ -7,6 +7,7 @@ const CONSTANTS = {
     USER_REGISTER: '/user/add',
     USER_LOGIN: '/user/login',
     WORK_ALL: '/work/all',
+    WORK_ID: '/work/',
   };
   
   export default CONSTANTS;
