@@ -67,5 +67,5 @@ export type WorkProps = {
   work_name: string;
   work_description: string;
   work_amount: number;
-  path_image: string;
+  work_image: string;
 }

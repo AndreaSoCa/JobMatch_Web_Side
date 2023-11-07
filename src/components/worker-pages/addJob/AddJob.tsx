@@ -22,24 +22,31 @@ export default function AddJobWorker() {
     const getAllWorks = async () => {
       setLoading(true);
       const works = await getWorks();
-      if(works === null){
+      if (works === null) {
         setLoading(false);
         return;
       }
       setWorks(works);
       setLoading(false);
-    }
+    };
     getAllWorks();
   }, []);
 
   const handleEditWork = (workId: string) => {
     console.log(workId);
     navigate(`/worker/edit-job/${workId}`);
-  }
+  };
 
   return (
     <>
-      <main>
+      <main
+        style={{
+          backgroundImage: `url('/src/assets/Principal.jpg')`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      >
         <Container maxWidth="sm">
           <Typography
             component="h1"
@@ -59,14 +66,16 @@ export default function AddJobWorker() {
             <Grid container spacing={4}>
               {works.map((work, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
-                  <Card onClick={() => handleEditWork(work.work_id)}
-                  sx={useStyles.card}>
+                  <Card
+                    onClick={() => handleEditWork(work.work_id)}
+                    sx={useStyles.card}
+                  >
                     <CardMedia
                       component="div"
                       sx={{
                         pt: "56.25%",
                       }}
-                      image={'/src/assets/turtle.png'}
+                      image={"/src/assets/hire-principal.jpg"}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography gutterBottom variant="h5" component="h2">

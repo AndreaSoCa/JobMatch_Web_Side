@@ -3,16 +3,14 @@ import {
   Grid,
   Typography,
   Container,
-  Card,
-  CardMedia,
-  CardContent,
   TextField,
   Button,
   Box,
+  Divider,
+  Paper,
 } from "@mui/material";
 import { Footer } from "../../materialUI-common";
-import { useStyles } from "../principal/PrincipalPageWorkerStyle";
-import { getWorkById } from "../../../services/work-service";
+import { getWorkById, updateWork } from "../../../services/work-service";
 import { WorkProps } from "../../../types";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -26,7 +24,7 @@ const EditJobWorker: React.FC = () => {
   useEffect(() => {
     const fetchWorkById = async () => {
       setLoading(true);
-      if(workId === undefined){
+      if (workId === undefined) {
         return;
       }
       const workData = await getWorkById(workId);
@@ -41,74 +39,102 @@ const EditJobWorker: React.FC = () => {
   }, [workId]);
   console.log(work);
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (work && workId) {
+      const success = await updateWork(workId, work);
+      if (success) {
+        navigate(`/worker/`);
+      } else {
+        console.log("Error al actualizar los datos");
+      }
+    }
+  };
 
+  const handleInputChange = (field: keyof WorkProps, value: string) => {
+    if (work) {
+      setWork({ ...work, [field]: value });
+    }
+  };
 
   return (
-    <>
-      <main>
-        <Container maxWidth="sm">
-          <Typography
-            component="h1"
-            variant="h2"
-            align="center"
-            color="text.primary"
-            gutterBottom
-          >
-            Edita tu trabajo
-          </Typography>
-        </Container>
+    <main
+        style={{
+          backgroundImage: `url('/src/assets/Principal.jpg')`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      >
+      <Container maxWidth="xl">
+        <Typography
+          component="h1"
+          variant="h2"
+          align="center"
+          color="text.primary"
+          gutterBottom
+        >
+          Edita tu trabajo
+        </Typography>
+      </Container>
 
-        <Container sx={{ py: 8 }} maxWidth="md">
-          {loading ? (
-            <Typography variant="body2">Cargando trabajos...</Typography>
-          ) : (
-            <Grid container spacing={4}>
-              <Box component="form"
-              // onSubmit={handleSubmit}
-              >
-          <TextField
-            label="Nombre del trabajo"
-            variant="outlined"
-            fullWidth
-            name="work_name"
-            value={work?.work_name}
-            onChange= {(event) => {
-              setWork({ 
-                ...work, 
-                work_name: event.target.value ?? "",
-              });
-            }} 
-          />
-          <TextField
-            label="Descripción del trabajo"
-            variant="outlined"
-            fullWidth
-            name="work_description"
-            multiline
-            rows={4}
-            value={work?.work_description }
-            // onChange={handleInputChange}
-          />
-          <TextField
-            label="Precio por hora"
-            variant="outlined"
-            fullWidth
-            name="work_amount"
-            multiline
-            rows={4}
-            value={work?.work_amount }
-            // onChange={handleInputChange}
-          />
-          {/* Otros campos del trabajo... */}
-          <Button variant="contained" color="primary" type="submit">
-            Guardar cambios
-          </Button>
-        </Box>
-            </Grid>
-          )}
-        </Container>
-      </main>
-
+      <Container
+        sx={{
+          py: 8,
+          width: "20%", 
+          margin: "0 auto", 
+          textAlign: "center",
+        }}
+      >
+        {loading ? (
+          <Typography variant="body2">Cargando trabajos...</Typography>
+        ) : (
+          <Grid container spacing={9}>
+            <Box component={Paper} elevation={5} p={5}>
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  label="Nombre del trabajo"
+                  variant="outlined"
+                  fullWidth
+                  name="work_name"
+                  value={work?.work_name}
+                  onChange={(event) =>
+                    handleInputChange("work_name", event.target.value)
+                  }
+                />
+                <Divider sx={{ my: 2 }} />
+                <TextField
+                  label="Descripción del trabajo"
+                  variant="outlined"
+                  fullWidth
+                  name="work_description"
+                  multiline
+                  rows={4}
+                  value={work?.work_description}
+                  onChange={(event) =>
+                    handleInputChange("work_description", event.target.value)
+                  }
+                />
+                <Divider sx={{ my: 2 }} />
+                <TextField
+                  label="Precio por hora"
+                  variant="outlined"
+                  fullWidth
+                  name="work_amount"
+                  value={work?.work_amount}
+                  onChange={(event) =>
+                    handleInputChange("work_amount", event.target.value)
+                  }
+                />
+                <Divider sx={{ my: 2 }} />
+                <Button variant="contained" color="primary" type="submit">
+                  Guardar cambios
+                </Button>
+              </form>
+            </Box>
+          </Grid>
+        )}
+      </Container>
       <Footer>
         <Container maxWidth="md">
           <Typography variant="body2">
@@ -120,7 +146,7 @@ const EditJobWorker: React.FC = () => {
           </Typography>
         </Container>
       </Footer>
-    </>
+    </main>
   );
 };
- export default EditJobWorker;
+export default EditJobWorker;
