@@ -20,7 +20,7 @@ const cardsTwo: CardPrincipal[] = [
   {
     title: 'Prestar servicios',
     description: 'Conecta con cualquier trabajador local o alrededor del mundo',
-    path_url: '/connect',
+    path_url: '/worker/add-job',
     path_image: 'src/assets/worker-principal.jpg',
   },
 

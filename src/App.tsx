@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from './components/home/Home.tsx';
-import { AvailableServices, LoginForm, PrincipalPageWorker, RegistrationForm } from './components/index.ts';
+import { AddJobWorker, AvailableServices, EditJobWorker, LoginForm, PrincipalPageWorker, RegistrationForm } from './components/index.ts';
 import PrincipalPageCustomer from './components/customer-pages/principal/PrincipalPageCustomer.tsx';
 import { RouterLayout } from './components/navBar/RouterLayout.tsx';
 import ProtectedRoute from './utils/ProtectedRoute.tsx';
@@ -29,6 +29,8 @@ const App = () => {
             <Route path="/worker/active-services" element={<PrincipalPageWorker />} />
             <Route path="/worker/abilities" element={<PrincipalPageWorker />} />
             <Route path="/worker/payments" element={<PrincipalPageWorker />} />
+            <Route path="/worker/add-job" element={<AddJobWorker />} />
+            <Route path="/worker/edit-job/:workId" element={<EditJobWorker />} />
           </Route>
         </Route>
 
