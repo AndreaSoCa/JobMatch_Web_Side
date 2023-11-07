@@ -8,6 +8,7 @@ const CONSTANTS = {
     USER_LOGIN: '/user/login',
     WORK_ALL: '/work/all',
     WORK_ID: '/work/',
+    UPDATE_WORK: '/work/update/',
   };
   
   export default CONSTANTS;
