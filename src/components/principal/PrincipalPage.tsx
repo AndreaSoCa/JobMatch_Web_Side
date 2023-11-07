@@ -7,10 +7,10 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import { CardPrincipal } from '../../types';
 import { Footer, Root } from '../materialUI-common';
 import { useStyles } from './PrincipalPageStyle';
+import { Link } from 'react-router-dom';
 
 const cardsTwo: CardPrincipal[] = [
   {
@@ -76,7 +76,7 @@ export default function PrincipalPage() {
           <Grid container spacing={4}>
             {cardsTwo.map((card, index) => (
               <Grid item key={index} xs={12} sm={6} md={4}>
-                <Link href={card.path_url} underline='none'>
+                <Link to={card.path_url}>
                   <Card
                     sx={useStyles.card}
                   >
