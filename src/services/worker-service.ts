@@ -1,4 +1,5 @@
 import CONSTANTS from "../Constants"
+import { TWorkerProfile } from "../types"
 
 interface Worker {
     email: string
@@ -7,11 +8,6 @@ interface Worker {
     worker_name: string
     worker_last_name: string
     worker_address: string
-}
-
-type Login = {
-  email: string;
-  password: string;
 }
 
 /**
@@ -37,27 +33,25 @@ export const registerWorker = async (worker: Worker) => {
       }
 };
 
-export const loginWorker = async (loginData: Login) => {
+export const updateWorker = async (worker: TWorkerProfile) => {
   try {
-      const response = await fetch(`${CONSTANTS.BASE_URL}${CONSTANTS.WORKER_LOGIN}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      });
+    const response = await fetch(`${CONSTANTS.BASE_URL}${CONSTANTS.WORKER_EDIT}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(worker),
+    });
 
-      if (!response.ok) {
-          throw new Error('Error al realizar la solicitud POST');
-        }
-        const data = await response.json();
-        if (data.message == "invalid worker email or password."){
-          throw new Error('Trabajador no válido');
-        }
-        console.log(data);
-        return data;
-    } catch (error) {
-      console.error('Error en la solicitud POST:', error);
-      throw error;
+    if (!response.ok) {
+      throw new Error('Error al realizar la solicitud PUT');
     }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error en la solicitud PUT:', error);
+    throw error;
+  }
 };
+

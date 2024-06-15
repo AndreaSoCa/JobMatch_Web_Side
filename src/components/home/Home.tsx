@@ -6,7 +6,6 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Link,
 } from '@mui/material';
 
 //Icons
@@ -14,6 +13,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { Footer, Root } from '../materialUI-common';
 import { useStyles } from './HomeStyles';
+import { Link } from 'react-router-dom';
 
 function Home() {
   return (
@@ -46,7 +46,7 @@ function Home() {
         </Container>
         <Grid container spacing={3} sx={{display: 'flex'}}>
           <Grid item xs={12} sm={6} >
-            <Link href="/login" underline='none'>
+            <Link to="/login">
               <Paper sx={useStyles.card}>
                 <LoginIcon sx={{fontSize: 140}} />
                 <Container sx={useStyles.cardContent}>
@@ -60,7 +60,7 @@ function Home() {
           </Grid>
           <Grid item xs={12} sm={6}>
             {/* Utiliza el componente Link para hacerlo cliclable y redirigir */}
-            <Link href="/register" underline='none'>
+            <Link to="/register">
               <Paper sx={useStyles.card}>
                 <PersonAddAltIcon sx={{fontSize: 140}} />
                 <Container sx={useStyles.cardContent}>

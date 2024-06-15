@@ -1,15 +1,13 @@
-import AppBar from '@mui/material/AppBar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { CardPrincipal } from '../../types';
-import { Footer, Root } from '../materialUI-common';
-import { useStyles } from './PrincipalPageStyle';
+import { CardPrincipal } from '../../../types';
+import { Footer } from '../../materialUI-common';
+import { useStyles } from './PrincipalPageCustomerStyle';
 import { Link } from 'react-router-dom';
 
 const cardsTwo: CardPrincipal[] = [
@@ -20,38 +18,22 @@ const cardsTwo: CardPrincipal[] = [
     path_image: 'src/assets/hire-principal.jpg',
   },
   {
-    title: 'Prestar servicios',
-    description: 'Conecta con cualquier trabajador local o alrededor del mundo',
-    path_url: '/connect',
-    path_image: 'src/assets/worker-principal.jpg',
-  },
-  {
-    title: 'Editar los servicios que presto',
-    description: 'Conecta con cualquier trabajador local o alrededor del mundo',
+    title: 'Edita tu perfil',
+    description: 'Puedes editar tu nombre, número de contacto o dirección',
     path_url: '/connect',
     path_image: 'src/assets/edit-work-principal.jpg',
   },
   {
-    title: 'Historial de contratos',
-    description: 'Conecta con cualquier trabajador local o alrededor del mundo',
+    title: 'Historial de servicios',
+    description: 'Mira el historial de los servicios que has contratado',
     path_url: '/connect',
     path_image: 'src/assets/hire-principal.jpg',
   }
 ];
 
-export default function PrincipalPage() {
+export default function PrincipalPageCustomer() {
   return (
-    <Root>
-      <AppBar position="static" sx={useStyles.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color={'black'}>Job-Match</Typography>
-          <img
-            src="src/assets/tortuga.png"
-            alt="Descripción de la imagen"
-            style={{ width: '50px', height: '30px', filter: 'invert(1)'}}
-          />
-        </Toolbar>
-      </AppBar>
+    <>
       <main>
         <Box
           sx={{
@@ -62,13 +44,13 @@ export default function PrincipalPage() {
         >
           <Container maxWidth="sm">
             <Typography
-              component="h1"
-              variant="h2"
+              component="h2"
+              variant="h3"
               align="center"
               color="text.primary"
               gutterBottom
             >
-              JOB MATCH
+              BIENVENIDO USUARIO
             </Typography>
           </Container>
         </Box>
@@ -114,6 +96,6 @@ export default function PrincipalPage() {
           </Typography>
         </Container>
       </Footer>
-    </Root>
+    </>
   );
 }
